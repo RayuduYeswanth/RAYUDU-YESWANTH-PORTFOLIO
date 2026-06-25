@@ -74,8 +74,17 @@
     </div>
   </aside>
 
+  <!-- Sidebar overlay (mobile backdrop) -->
+  <div id="sidebar-overlay" onclick="closeSidebar()"></div>
+
   <!-- Main content -->
   <main id="main">
+    <!-- Mobile topbar -->
+    <div id="mobile-topbar">
+      <button id="hamburger-btn" onclick="toggleSidebar()" aria-label="Open menu">☰</button>
+      <span style="font-weight:700;color:var(--accent)">RY Admin</span>
+      <span style="width:2rem"></span>
+    </div>
 
     <!-- ── Dashboard ── -->
     <div id="page-dashboard" class="admin-page active">
@@ -118,7 +127,7 @@
       <div class="page-header"><h1 style="font-size:1.25rem;font-weight:600">Profile</h1></div>
       <div class="page-content">
         <form id="profile-form">
-          <div style="display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem">
+          <div class="avatar-section" style="display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem">
             <div class="avatar-upload" id="avatar-upload-btn">
               <span id="avatar-initials" style="font-size:2rem;font-weight:700;color:var(--accent)">RY</span>
               <img id="avatar-preview" src="" style="display:none" alt="Profile">
@@ -218,43 +227,53 @@
 
     <!-- ── Education ── -->
     <div id="page-education" class="admin-page">
-      <div class="page-header" style="display:flex;align-items:center;justify-content:space-between">
-        <h1 style="font-size:1.25rem;font-weight:600">Education</h1>
-        <button class="btn btn-primary btn-sm" onclick="openEduModal()">+ Add</button>
+      <div class="page-header">
+        <div class="page-header-row" style="display:flex;align-items:center;justify-content:space-between">
+          <h1 style="font-size:1.25rem;font-weight:600">Education</h1>
+          <button class="btn btn-primary btn-sm" onclick="openEduModal()">+ Add</button>
+        </div>
       </div>
       <div class="page-content">
-        <div class="card" style="overflow:hidden">
-          <table class="admin-table">
-            <thead><tr><th>Degree</th><th>Institution</th><th>Year</th><th>Status</th><th>Actions</th></tr></thead>
-            <tbody id="edu-tbody"><tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--muted)">Loading…</td></tr></tbody>
-          </table>
+        <div class="card">
+          <div class="table-wrap">
+            <table class="admin-table">
+              <thead><tr><th>Degree</th><th>Institution</th><th>Year</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="edu-tbody"><tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--muted)">Loading…</td></tr></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- ── Projects ── -->
     <div id="page-projects" class="admin-page">
-      <div class="page-header" style="display:flex;align-items:center;justify-content:space-between">
-        <h1 style="font-size:1.25rem;font-weight:600">Projects</h1>
-        <button class="btn btn-primary btn-sm" onclick="openProjModal()">+ Add</button>
+      <div class="page-header">
+        <div class="page-header-row" style="display:flex;align-items:center;justify-content:space-between">
+          <h1 style="font-size:1.25rem;font-weight:600">Projects</h1>
+          <button class="btn btn-primary btn-sm" onclick="openProjModal()">+ Add</button>
+        </div>
       </div>
       <div class="page-content"><div id="projects-list"></div></div>
     </div>
 
     <!-- ── Certifications ── -->
     <div id="page-certifications" class="admin-page">
-      <div class="page-header" style="display:flex;align-items:center;justify-content:space-between">
-        <h1 style="font-size:1.25rem;font-weight:600">Certifications</h1>
-        <button class="btn btn-primary btn-sm" onclick="openCertModal()">+ Add</button>
+      <div class="page-header">
+        <div class="page-header-row" style="display:flex;align-items:center;justify-content:space-between">
+          <h1 style="font-size:1.25rem;font-weight:600">Certifications</h1>
+          <button class="btn btn-primary btn-sm" onclick="openCertModal()">+ Add</button>
+        </div>
       </div>
       <div class="page-content"><div id="certs-list"></div></div>
     </div>
 
     <!-- ── Skills ── -->
     <div id="page-skills" class="admin-page">
-      <div class="page-header" style="display:flex;align-items:center;justify-content:space-between">
-        <h1 style="font-size:1.25rem;font-weight:600">Skills</h1>
-        <button id="add-skill-group" class="btn btn-primary btn-sm">+ Add Group</button>
+      <div class="page-header">
+        <div class="page-header-row" style="display:flex;align-items:center;justify-content:space-between">
+          <h1 style="font-size:1.25rem;font-weight:600">Skills</h1>
+          <button id="add-skill-group" class="btn btn-primary btn-sm">+ Add Group</button>
+        </div>
       </div>
       <div class="page-content"><div id="skills-manager"></div></div>
     </div>
@@ -263,11 +282,13 @@
     <div id="page-messages" class="admin-page">
       <div class="page-header"><h1 style="font-size:1.25rem;font-weight:600">Messages</h1></div>
       <div class="page-content">
-        <div class="card" style="overflow:hidden">
-          <table class="admin-table">
-            <thead><tr><th>From</th><th>Message</th><th>Date</th><th></th></tr></thead>
-            <tbody id="msg-tbody"><tr><td colspan="4" style="text-align:center;padding:2rem;color:var(--muted)">Loading…</td></tr></tbody>
-          </table>
+        <div class="card">
+          <div class="table-wrap">
+            <table class="admin-table">
+              <thead><tr><th>From</th><th>Message</th><th>Date</th><th></th></tr></thead>
+              <tbody id="msg-tbody"><tr><td colspan="4" style="text-align:center;padding:2rem;color:var(--muted)">Loading…</td></tr></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

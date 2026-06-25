@@ -512,9 +512,19 @@ const loaders = {
   'cv-upload':    loadCvUpload
 };
 
+// ── Sidebar toggle (mobile) ───────────────────────────────────────────────────
+function toggleSidebar() {
+  const open = document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('show', open);
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('show');
+}
+
 // ── Wire nav + modals ─────────────────────────────────────────────────────────
 document.querySelectorAll('.nav-item[data-page]').forEach(item =>
-  item.addEventListener('click', () => showPage(item.dataset.page))
+  item.addEventListener('click', () => { showPage(item.dataset.page); closeSidebar(); })
 );
 document.querySelectorAll('.modal-close, [data-close-modal]').forEach(btn =>
   btn.addEventListener('click', () => btn.closest('.modal-overlay').classList.add('hidden'))

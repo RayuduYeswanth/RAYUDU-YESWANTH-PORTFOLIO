@@ -16,7 +16,7 @@
 <nav id="navbar">
   <div class="container" style="display:flex;align-items:center;justify-content:space-between;height:4rem">
     <div style="font-weight:700;color:var(--accent);font-size:1.05rem">RY<span style="color:var(--text)">.dev</span></div>
-    <div style="display:flex;gap:1.75rem;align-items:center">
+    <div class="nav-links-desktop" style="display:flex;gap:1.75rem;align-items:center">
       <a class="nav-link" href="#about" data-section="about">About</a>
       <a class="nav-link" href="#education" data-section="education">Education</a>
       <a class="nav-link" href="#skills" data-section="skills">Skills</a>
@@ -24,13 +24,32 @@
       <a class="nav-link" href="#certifications" data-section="certifications">Certs</a>
       <a class="nav-link" href="#contact" data-section="contact">Contact</a>
     </div>
+    <button id="nav-hamburger" aria-label="Open menu" onclick="openMobileMenu()">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<!-- Mobile menu -->
+<div id="mobile-menu" role="dialog" aria-label="Navigation">
+  <div id="mobile-menu-inner">
+    <div class="mobile-nav-header">
+      <span style="font-weight:700;color:var(--accent)">RY<span style="color:var(--text)">.dev</span></span>
+      <button class="mobile-nav-close" onclick="closeMobileMenu()" aria-label="Close menu">✕</button>
+    </div>
+    <a class="mobile-nav-link" href="#about"          onclick="closeMobileMenu()">About</a>
+    <a class="mobile-nav-link" href="#education"      onclick="closeMobileMenu()">Education</a>
+    <a class="mobile-nav-link" href="#skills"         onclick="closeMobileMenu()">Skills</a>
+    <a class="mobile-nav-link" href="#projects"       onclick="closeMobileMenu()">Projects</a>
+    <a class="mobile-nav-link" href="#certifications" onclick="closeMobileMenu()">Certifications</a>
+    <a class="mobile-nav-link" href="#contact"        onclick="closeMobileMenu()">Contact</a>
+  </div>
+</div>
 
 <!-- ── Hero ────────────────────────────────────────────────────────────────── -->
 <section id="hero">
   <div class="grid-bg"></div>
-  <div class="container" style="display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:center">
+  <div class="container hero-grid" style="display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:center">
     <div>
       <div class="hero-badge">⚡ ECE Student · VLSI & Embedded Systems</div>
       <h1 class="hero-name">
@@ -66,7 +85,7 @@
       </div>
 
       <!-- CTAs -->
-      <div style="display:flex;gap:1rem;flex-wrap:wrap">
+      <div class="hero-ctas" style="display:flex;gap:1rem;flex-wrap:wrap">
         <a id="cv-btn" href="#" class="btn-primary" download>
           ↓ Download CV
         </a>
@@ -94,7 +113,7 @@
       <h2 class="section-title">Who I Am</h2>
       <div class="section-divider"></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start">
+    <div class="about-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start">
       <div class="fade-in">
         <p id="bio-text" style="color:var(--muted);line-height:1.8;font-size:.95rem">
           Electronics &amp; Communication Engineering student at Sri Manakula Vinayagar Engineering College,
@@ -205,7 +224,7 @@
       <h2 class="section-title">Get In Touch</h2>
       <div class="section-divider"></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;max-width:900px">
+    <div class="contact-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;max-width:900px">
       <div class="fade-in">
         <p style="color:var(--muted);margin-bottom:1.5rem;font-size:.95rem">
           Have a project in mind or want to discuss VLSI/embedded systems? I'd love to hear from you.
@@ -261,7 +280,13 @@
 
 <div id="toast"></div>
 
-<script>document.getElementById('copy-year').textContent = new Date().getFullYear();</script>
+<script>
+  document.getElementById('copy-year').textContent = new Date().getFullYear();
+  function openMobileMenu()  { document.getElementById('mobile-menu').classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeMobileMenu() { document.getElementById('mobile-menu').classList.remove('open'); document.body.style.overflow=''; }
+  // Close on backdrop click
+  document.getElementById('mobile-menu').addEventListener('click', function(e){ if(e.target===this) closeMobileMenu(); });
+</script>
 
 <!-- Firebase compat SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
