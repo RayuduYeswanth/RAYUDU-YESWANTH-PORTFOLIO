@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfolio of Rayudu Yeswanth Chandra Sekhar — ECE student specializing in VLSI Design & Embedded Systems">
+  <title>Rayudu Yeswanth | VLSI & Embedded Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/css/portfolio.css">
+</head>
+<body>
+
+<!-- ── Navigation ──────────────────────────────────────────────────────────── -->
+<nav id="navbar">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;height:4rem">
+    <div style="font-weight:700;color:var(--accent);font-size:1.05rem">RY<span style="color:var(--text)">.dev</span></div>
+    <div style="display:flex;gap:1.75rem;align-items:center">
+      <a class="nav-link" href="#about" data-section="about">About</a>
+      <a class="nav-link" href="#education" data-section="education">Education</a>
+      <a class="nav-link" href="#skills" data-section="skills">Skills</a>
+      <a class="nav-link" href="#projects" data-section="projects">Projects</a>
+      <a class="nav-link" href="#certifications" data-section="certifications">Certs</a>
+      <a class="nav-link" href="#contact" data-section="contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ────────────────────────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="grid-bg"></div>
+  <div class="container" style="display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:center">
+    <div>
+      <div class="hero-badge">⚡ ECE Student · VLSI & Embedded Systems</div>
+      <h1 class="hero-name">
+        Hi, I'm <span class="accent" data-field="name">Rayudu Yeswanth<br>Chandra Sekhar</span>
+      </h1>
+      <div id="typewriter" style="margin:1rem 0 .5rem">
+        <span id="typewriter-text"></span><span class="cursor"></span>
+      </div>
+      <p id="hero-tagline" style="color:var(--muted);margin-bottom:2rem;font-size:.95rem">Building tomorrow's circuits, today.</p>
+
+      <!-- Stats bar -->
+      <div class="stats-bar" style="margin-bottom:2rem">
+        <div class="stat-item">
+          <div class="stat-num" id="stat-projects">4</div>
+          <div class="stat-label">Projects</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" id="stat-skills">20+</div>
+          <div class="stat-label">Skills</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" id="stat-certs">4</div>
+          <div class="stat-label">Certifications</div>
+        </div>
+      </div>
+
+      <!-- Social links -->
+      <div class="social-links" style="margin-bottom:2rem">
+        <a id="social-linkedin" href="#" class="social-link" target="_blank" aria-label="LinkedIn">in</a>
+        <a id="social-github" href="#" class="social-link" target="_blank" aria-label="GitHub">⟨/⟩</a>
+        <a id="social-twitter" href="#" class="social-link" target="_blank" aria-label="Twitter">𝕏</a>
+        <a id="social-instagram" href="#" class="social-link" target="_blank" aria-label="Instagram">◈</a>
+      </div>
+
+      <!-- CTAs -->
+      <div style="display:flex;gap:1rem;flex-wrap:wrap">
+        <a id="cv-btn" href="#" class="btn-primary" download>
+          ↓ Download CV
+        </a>
+        <a href="#contact" class="btn-outline">Contact Me →</a>
+      </div>
+    </div>
+
+    <!-- Avatar -->
+    <div style="display:flex;justify-content:center">
+      <div class="avatar-ring">
+        <div class="avatar-inner">
+          <span id="profile-initials">RY</span>
+          <img id="profile-img" src="" alt="Rayudu Yeswanth" style="display:none">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── About ────────────────────────────────────────────────────────────────── -->
+<section id="about" style="background:var(--bg-card2)">
+  <div class="container">
+    <div class="fade-in">
+      <span class="section-tag">About Me</span>
+      <h2 class="section-title">Who I Am</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start">
+      <div class="fade-in">
+        <p id="bio-text" style="color:var(--muted);line-height:1.8;font-size:.95rem">
+          Electronics &amp; Communication Engineering student at Sri Manakula Vinayagar Engineering College,
+          Puducherry. Passionate about VLSI design, embedded systems, and semiconductor technology.
+          Actively pursuing hands-on projects and certifications to bridge academics with industry.
+        </p>
+      </div>
+      <div class="fade-in">
+        <div style="margin-bottom:1.5rem">
+          <div style="font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.75rem">Languages</div>
+          <div id="languages" style="display:flex;flex-wrap:wrap;gap:.5rem">
+            <span class="skill-pill">English</span>
+            <span class="skill-pill">Telugu</span>
+            <span class="skill-pill">Tamil</span>
+          </div>
+        </div>
+        <div style="display:grid;gap:.75rem">
+          <div style="display:flex;gap:.75rem;align-items:center">
+            <span style="color:var(--accent)">✉</span>
+            <a id="contact-email" href="mailto:ryeswanthbraptcy@gmail.com" style="color:var(--muted);text-decoration:none;font-size:.9rem">ryeswanthbraptcy@gmail.com</a>
+          </div>
+          <div style="display:flex;gap:.75rem;align-items:center">
+            <span style="color:var(--accent)">☎</span>
+            <a id="contact-phone" href="tel:+919398052655" style="color:var(--muted);text-decoration:none;font-size:.9rem">+91 93980 52655</a>
+          </div>
+          <div style="display:flex;gap:.75rem;align-items:center">
+            <span style="color:var(--accent)">⌖</span>
+            <span id="contact-location" style="color:var(--muted);font-size:.9rem">Yanam – 533464, Andhra Pradesh</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Education ─────────────────────────────────────────────────────────────── -->
+<section id="education">
+  <div class="container">
+    <div class="fade-in">
+      <span class="section-tag">Education</span>
+      <h2 class="section-title">Academic Journey</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="timeline" id="education-list">
+      <!-- skeleton -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="skeleton" style="width:60%;height:.9rem;margin-bottom:.4rem"></div>
+        <div class="skeleton" style="width:40%;height:.75rem;margin-bottom:.4rem"></div>
+        <div class="skeleton" style="width:25%;height:.7rem"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Skills ───────────────────────────────────────────────────────────────── -->
+<section id="skills" style="background:var(--bg-card2)">
+  <div class="container">
+    <div class="fade-in">
+      <span class="section-tag">Technical Skills</span>
+      <h2 class="section-title">What I Work With</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div id="skills-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem">
+      <div class="skeleton" style="height:120px;border-radius:12px"></div>
+      <div class="skeleton" style="height:120px;border-radius:12px"></div>
+      <div class="skeleton" style="height:120px;border-radius:12px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Projects ──────────────────────────────────────────────────────────────── -->
+<section id="projects">
+  <div class="container">
+    <div class="fade-in">
+      <span class="section-tag">Projects</span>
+      <h2 class="section-title">Things I've Built</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="filter-tabs" id="project-tabs"></div>
+    <div id="projects-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem">
+      <div class="skeleton" style="height:320px;border-radius:12px"></div>
+      <div class="skeleton" style="height:320px;border-radius:12px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Certifications ────────────────────────────────────────────────────────── -->
+<section id="certifications" style="background:var(--bg-card2)">
+  <div class="container">
+    <div class="fade-in">
+      <span class="section-tag">Certifications</span>
+      <h2 class="section-title">Credentials & Achievements</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div id="certs-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem">
+      <div class="skeleton" style="height:100px;border-radius:12px"></div>
+      <div class="skeleton" style="height:100px;border-radius:12px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Contact ───────────────────────────────────────────────────────────────── -->
+<section id="contact">
+  <div class="container">
+    <div class="fade-in">
+      <span class="section-tag">Contact</span>
+      <h2 class="section-title">Get In Touch</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;max-width:900px">
+      <div class="fade-in">
+        <p style="color:var(--muted);margin-bottom:1.5rem;font-size:.95rem">
+          Have a project in mind or want to discuss VLSI/embedded systems? I'd love to hear from you.
+        </p>
+        <div style="display:grid;gap:1rem">
+          <div class="card" style="padding:.875rem 1.25rem;display:flex;align-items:center;gap:.875rem">
+            <span style="color:var(--accent);font-size:1.2rem">✉</span>
+            <div>
+              <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Email</div>
+              <a href="mailto:ryeswanthbraptcy@gmail.com" style="color:var(--text);text-decoration:none;font-size:.875rem">ryeswanthbraptcy@gmail.com</a>
+            </div>
+          </div>
+          <div class="card" style="padding:.875rem 1.25rem;display:flex;align-items:center;gap:.875rem">
+            <span style="color:var(--accent);font-size:1.2rem">⌖</span>
+            <div>
+              <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Location</div>
+              <span style="color:var(--text);font-size:.875rem">Yanam – 533464, Andhra Pradesh</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fade-in">
+        <form id="contact-form">
+          <div style="margin-bottom:1rem">
+            <label class="form-label" for="cf-name">Your Name</label>
+            <input id="cf-name" name="name" class="form-input" type="text" placeholder="John Doe" required>
+          </div>
+          <div style="margin-bottom:1rem">
+            <label class="form-label" for="cf-email">Email Address</label>
+            <input id="cf-email" name="email" class="form-input" type="email" placeholder="john@example.com" required>
+          </div>
+          <div style="margin-bottom:1.25rem">
+            <label class="form-label" for="cf-msg">Message</label>
+            <textarea id="cf-msg" name="message" class="form-input" rows="4" placeholder="Your message…" required style="resize:vertical"></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%;justify-content:center">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <p style="margin-bottom:.5rem">
+      <span style="color:var(--accent);font-weight:700">Rayudu Yeswanth Chandra Sekhar</span>
+    </p>
+    <p>VLSI Design &amp; Embedded Systems · ECE Student</p>
+    <p style="margin-top:.5rem;font-size:.75rem">© <span id="copy-year"></span> All rights reserved.</p>
+  </div>
+</footer>
+
+<div id="toast"></div>
+
+<script>document.getElementById('copy-year').textContent = new Date().getFullYear();</script>
+
+<!-- Firebase compat SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="assets/js/firebase-config.js"></script>
+<script src="assets/js/portfolio.js"></script>
+</body>
+</html>

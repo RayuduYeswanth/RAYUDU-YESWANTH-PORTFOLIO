@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Rayudu Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/css/admin.css">
+  <style>
+    .timeline-badge { display:inline-block;padding:.2rem .6rem;border-radius:999px;font-size:.72rem; }
+    .badge-pursuing { background:rgba(0,212,255,.15);color:#00d4ff; }
+    .badge-completed { background:rgba(16,185,129,.15);color:#10b981; }
+    .cert-badge { width:3rem;height:3rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;text-align:center;flex-shrink:0; }
+    .badge-FPGA  { background:rgba(0,212,255,.15);color:#00d4ff; }
+    .badge-TCAD  { background:rgba(124,58,237,.15);color:#a78bfa; }
+    .badge-AI    { background:rgba(16,185,129,.15);color:#10b981; }
+    .badge-NPTEL { background:rgba(245,158,11,.15);color:#f59e0b; }
+    .badge-OTHER { background:rgba(148,163,184,.15);color:#94a3b8; }
+    .cv-drop { border:2px dashed var(--border);border-radius:12px;padding:3rem 2rem;text-align:center;cursor:pointer;transition:all .2s; }
+    .cv-drop:hover, .cv-drop.drag-over { border-color:var(--accent);background:rgba(0,212,255,.05); }
+    .cv-progress-wrap { margin-top:1rem;background:rgba(255,255,255,.05);border-radius:999px;overflow:hidden;height:6px;display:none; }
+    .cv-progress { height:100%;background:var(--accent);border-radius:999px;transition:width .3s; }
+    #login-error { color:#f87171;font-size:.8rem;margin-top:.5rem;display:none; }
+  </style>
+</head>
+<body>
+
+<!-- ── Login Screen ──────────────────────────────────────────────────────────── -->
+<div id="login-screen">
+  <div class="login-card">
+    <div style="text-align:center;margin-bottom:2rem">
+      <div style="font-size:1.5rem;font-weight:700;color:var(--accent);margin-bottom:.25rem">RY Admin</div>
+      <div style="color:var(--muted);font-size:.875rem">Portfolio Dashboard</div>
+    </div>
+    <form id="login-form">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input name="email" type="email" class="form-input" placeholder="ryeswanthbraptcy@gmail.com" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input name="password" type="password" class="form-input" placeholder="••••••••" required>
+      </div>
+      <div id="login-error"></div>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.75rem">Sign In</button>
+    </form>
+  </div>
+</div>
+
+<!-- ── App Layout ────────────────────────────────────────────────────────────── -->
+<div id="app" style="display:none">
+
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <div class="sidebar-logo">⚡ RY Admin</div>
+    <nav class="sidebar-nav">
+      <div class="nav-item active" data-page="dashboard"><span>⊞</span> Dashboard</div>
+      <div class="nav-item" data-page="profile"><span>◉</span> Profile</div>
+      <div class="nav-item" data-page="cv-upload"><span>📄</span> CV / Resume</div>
+      <div class="nav-item" data-page="education"><span>🎓</span> Education</div>
+      <div class="nav-item" data-page="projects"><span>⟨/⟩</span> Projects</div>
+      <div class="nav-item" data-page="certifications"><span>★</span> Certifications</div>
+      <div class="nav-item" data-page="skills"><span>⚙</span> Skills</div>
+      <div class="nav-item" data-page="messages">
+        <span>✉</span> Messages
+        <span class="nav-badge" id="msg-badge" style="display:none">0</span>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div style="font-size:.75rem;color:var(--muted);margin-bottom:.75rem" id="admin-email"></div>
+      <button id="logout-btn" class="btn btn-ghost" style="width:100%;justify-content:center">Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main id="main">
+
+    <!-- ── Dashboard ── -->
+    <div id="page-dashboard" class="admin-page active">
+      <div class="page-header">
+        <h1 style="font-size:1.25rem;font-weight:600">Dashboard</h1>
+        <p style="font-size:.8rem;color:var(--muted);margin-top:.2rem">Welcome back!</p>
+      </div>
+      <div class="page-content">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-bottom:2rem">
+          <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(0,212,255,.1)">⟨/⟩</div>
+            <div><div style="font-size:1.75rem;font-weight:700;color:var(--accent)" id="dash-projects">—</div><div style="font-size:.78rem;color:var(--muted)">Projects</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(124,58,237,.1)">★</div>
+            <div><div style="font-size:1.75rem;font-weight:700;color:#a78bfa" id="dash-certs">—</div><div style="font-size:.78rem;color:var(--muted)">Certifications</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(16,185,129,.1)">✉</div>
+            <div><div style="font-size:1.75rem;font-weight:700;color:#10b981" id="dash-messages">—</div><div style="font-size:.78rem;color:var(--muted)">Messages</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(245,158,11,.1)">⚙</div>
+            <div><div style="font-size:1.75rem;font-weight:700;color:#f59e0b" id="dash-skills">—</div><div style="font-size:.78rem;color:var(--muted)">Skill Groups</div></div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:1.5rem">
+          <div style="padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+            <span style="font-weight:600;font-size:.9rem">Recent Messages</span>
+            <button class="btn btn-ghost btn-sm" onclick="showPage('messages')">View All</button>
+          </div>
+          <div id="recent-messages"></div>
+        </div>
+        <button id="seed-btn" class="btn btn-ghost btn-sm">⊕ Seed Initial Data</button>
+      </div>
+    </div>
+
+    <!-- ── Profile ── -->
+    <div id="page-profile" class="admin-page">
+      <div class="page-header"><h1 style="font-size:1.25rem;font-weight:600">Profile</h1></div>
+      <div class="page-content">
+        <form id="profile-form">
+          <div style="display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem">
+            <div class="avatar-upload" id="avatar-upload-btn">
+              <span id="avatar-initials" style="font-size:2rem;font-weight:700;color:var(--accent)">RY</span>
+              <img id="avatar-preview" src="" style="display:none" alt="Profile">
+              <div class="overlay">Change Photo</div>
+            </div>
+            <div>
+              <div style="font-size:.875rem;font-weight:500">Profile Photo</div>
+              <div style="font-size:.775rem;color:var(--muted)">Uploaded via ImgBB (free, permanent)</div>
+            </div>
+            <input type="file" id="avatar-file" accept="image/*" style="display:none">
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input id="p-name" class="form-input" placeholder="Rayudu Yeswanth Chandra Sekhar">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Title</label>
+              <input id="p-title" class="form-input" placeholder="VLSI Design & Embedded Systems Enthusiast">
+            </div>
+            <div class="form-group" style="grid-column:1/-1">
+              <label class="form-label">Tagline</label>
+              <input id="p-tagline" class="form-input" placeholder="Building tomorrow's circuits, today.">
+            </div>
+            <div class="form-group" style="grid-column:1/-1">
+              <label class="form-label">Bio</label>
+              <textarea id="p-bio" class="form-textarea" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input id="p-email" type="email" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone</label>
+              <input id="p-phone" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Location</label>
+              <input id="p-location" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Languages (comma-separated)</label>
+              <input id="p-langs" class="form-input" placeholder="English, Telugu, Tamil">
+            </div>
+            <div class="form-group">
+              <label class="form-label">LinkedIn URL</label>
+              <input id="p-linkedin" class="form-input" placeholder="https://linkedin.com/in/…">
+            </div>
+            <div class="form-group">
+              <label class="form-label">GitHub URL</label>
+              <input id="p-github" class="form-input" placeholder="https://github.com/…">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Twitter/X URL</label>
+              <input id="p-twitter" class="form-input" placeholder="https://x.com/…">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Instagram URL</label>
+              <input id="p-instagram" class="form-input" placeholder="https://instagram.com/…">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Save Profile</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ── CV Upload ── -->
+    <div id="page-cv-upload" class="admin-page">
+      <div class="page-header"><h1 style="font-size:1.25rem;font-weight:600">CV / Resume</h1></div>
+      <div class="page-content">
+        <div class="card" style="padding:1.5rem;max-width:600px">
+          <div style="font-size:.875rem;font-weight:500;margin-bottom:.5rem">Upload your CV / Resume PDF directly</div>
+          <div style="font-size:.8rem;color:var(--muted);margin-bottom:1.25rem;line-height:1.6">
+            Stored in <strong style="color:var(--accent)">Firebase Storage</strong> (free 5 GB). URL saved automatically — no copying needed.
+          </div>
+
+          <div id="cv-status" style="font-size:.85rem;padding:.75rem 1rem;background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.15);border-radius:8px;margin-bottom:1.25rem">
+            No CV uploaded yet.
+          </div>
+
+          <div class="cv-drop" id="cv-dropzone">
+            <div style="font-size:2rem;margin-bottom:.5rem">📄</div>
+            <div style="font-weight:600;margin-bottom:.25rem">Drop PDF here or click to browse</div>
+            <div style="font-size:.8rem;color:var(--muted)">PDF files only · replaces previous upload</div>
+          </div>
+          <input type="file" id="cv-file" accept="application/pdf" style="display:none">
+
+          <div class="cv-progress-wrap" id="cv-progress-wrap">
+            <div class="cv-progress" id="cv-progress" style="width:0%"></div>
+          </div>
+
+          <button id="cv-copy-btn" class="btn btn-ghost btn-sm" style="display:none;margin-top:1rem">📋 Copy CV URL</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Education ── -->
+    <div id="page-education" class="admin-page">
+      <div class="page-header" style="display:flex;align-items:center;justify-content:space-between">
+        <h1 style="font-size:1.25rem;font-weight:600">Education</h1>
+        <button class="btn btn-primary btn-sm" onclick="openEduModal()">+ Add</button>
+      </div>
+      <div class="page-content">
+        <div class="card" style="overflow:hidden">
+          <table class="admin-table">
+            <thead><tr><th>Degree</th><th>Institution</th><th>Year</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="edu-tbody"><tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--muted)">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Projects ── -->
+    <div id="page-projects" class="admin-page">
+      <div class="page-header" style="display:flex;align-items:center;justify-content:space-between">
+        <h1 style="font-size:1.25rem;font-weight:600">Projects</h1>
+        <button class="btn btn-primary btn-sm" onclick="openProjModal()">+ Add</button>
+      </div>
+      <div class="page-content"><div id="projects-list"></div></div>
+    </div>
+
+    <!-- ── Certifications ── -->
+    <div id="page-certifications" class="admin-page">
+      <div class="page-header" style="display:flex;align-items:center;justify-content:space-between">
+        <h1 style="font-size:1.25rem;font-weight:600">Certifications</h1>
+        <button class="btn btn-primary btn-sm" onclick="openCertModal()">+ Add</button>
+      </div>
+      <div class="page-content"><div id="certs-list"></div></div>
+    </div>
+
+    <!-- ── Skills ── -->
+    <div id="page-skills" class="admin-page">
+      <div class="page-header" style="display:flex;align-items:center;justify-content:space-between">
+        <h1 style="font-size:1.25rem;font-weight:600">Skills</h1>
+        <button id="add-skill-group" class="btn btn-primary btn-sm">+ Add Group</button>
+      </div>
+      <div class="page-content"><div id="skills-manager"></div></div>
+    </div>
+
+    <!-- ── Messages ── -->
+    <div id="page-messages" class="admin-page">
+      <div class="page-header"><h1 style="font-size:1.25rem;font-weight:600">Messages</h1></div>
+      <div class="page-content">
+        <div class="card" style="overflow:hidden">
+          <table class="admin-table">
+            <thead><tr><th>From</th><th>Message</th><th>Date</th><th></th></tr></thead>
+            <tbody id="msg-tbody"><tr><td colspan="4" style="text-align:center;padding:2rem;color:var(--muted)">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── Modals ───────────────────────────────────────────────────────────────── -->
+
+<!-- Education modal -->
+<div class="modal-overlay hidden" id="edu-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span id="edu-modal-title" style="font-weight:600">Education</span>
+      <button class="modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="edu-form">
+        <div class="form-group">
+          <label class="form-label">Degree / Program</label>
+          <input id="edu-degree" class="form-input" placeholder="B.Tech ECE" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Institution</label>
+          <input id="edu-institution" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Year / Duration</label>
+          <input id="edu-year" class="form-input" placeholder="2024–2027">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select id="edu-status" class="form-select">
+            <option value="pursuing">Pursuing</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Order</label>
+          <input id="edu-order" type="number" class="form-input" value="1" min="1">
+        </div>
+        <div style="display:flex;gap:.75rem;justify-content:flex-end">
+          <button type="button" class="btn btn-ghost" data-close-modal>Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Project modal -->
+<div class="modal-overlay hidden" id="proj-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span id="proj-modal-title" style="font-weight:600">Project</span>
+      <button class="modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="proj-form">
+        <div class="form-group">
+          <label class="form-label">Title</label>
+          <input id="proj-title" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea id="proj-desc" class="form-textarea" rows="3"></textarea>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <input id="proj-category" class="form-input" list="cat-list" placeholder="Embedded">
+            <datalist id="cat-list">
+              <option value="Embedded"><option value="Electronics"><option value="Arduino"><option value="VLSI">
+            </datalist>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Order</label>
+            <input id="proj-order" type="number" class="form-input" value="1" min="1">
+          </div>
+          <div class="form-group">
+            <label class="form-label">GitHub URL</label>
+            <input id="proj-github" type="url" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Demo URL</label>
+            <input id="proj-demo" type="url" class="form-input">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">YouTube Video URL</label>
+          <input id="proj-video" type="url" class="form-input" placeholder="https://youtube.com/watch?v=…">
+          <div style="font-size:.75rem;color:var(--muted);margin-top:.25rem">Paste a YouTube link — will be embedded on the portfolio</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tech Tags (Enter to add)</label>
+          <div class="tag-container" id="tag-container"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Images (uploaded to ImgBB)</label>
+          <div id="proj-existing-imgs" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem"></div>
+          <input id="proj-images" type="file" accept="image/*" multiple class="form-input" style="padding:.4rem">
+        </div>
+        <div style="display:flex;gap:.75rem;justify-content:flex-end">
+          <button type="button" class="btn btn-ghost" data-close-modal>Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Cert modal -->
+<div class="modal-overlay hidden" id="cert-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span id="cert-modal-title" style="font-weight:600">Certification</span>
+      <button class="modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="cert-form">
+        <div class="form-group">
+          <label class="form-label">Title</label>
+          <input id="cert-title" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Issuer</label>
+          <input id="cert-issuer" class="form-input" required>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div class="form-group">
+            <label class="form-label">Date</label>
+            <input id="cert-date" class="form-input" placeholder="April 2026">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Badge Type</label>
+            <select id="cert-badge" class="form-select">
+              <option value="FPGA">FPGA</option>
+              <option value="TCAD">TCAD</option>
+              <option value="AI">AI/ML</option>
+              <option value="NPTEL">NPTEL</option>
+              <option value="OTHER">OTHER</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Order</label>
+            <input id="cert-order" type="number" class="form-input" value="1" min="1">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Certificate Image (uploaded to ImgBB)</label>
+          <div id="cert-img-preview"></div>
+          <input id="cert-image" type="file" accept="image/*" class="form-input" style="padding:.4rem">
+        </div>
+        <div style="display:flex;gap:.75rem;justify-content:flex-end">
+          <button type="button" class="btn btn-ghost" data-close-modal>Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Message detail modal -->
+<div class="modal-overlay hidden" id="msg-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span style="font-weight:600">Message</span>
+      <button class="modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="margin-bottom:1rem">
+        <div style="font-size:.8rem;color:var(--muted)">From</div>
+        <div style="font-weight:600" id="msg-detail-name"></div>
+        <div style="font-size:.85rem;color:var(--accent)" id="msg-detail-email"></div>
+      </div>
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:1rem;font-size:.9rem;line-height:1.6;margin-bottom:1.25rem" id="msg-detail-text"></div>
+      <div style="display:flex;gap:.75rem">
+        <a id="msg-reply-btn" href="#" class="btn btn-primary btn-sm">↩ Reply via Email</a>
+        <button class="btn btn-ghost btn-sm" data-close-modal>Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="admin-toast"></div>
+
+<!-- Firebase compat SDK — Storage included here for CV upload -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+<script src="../assets/js/firebase-config.js"></script>
+<script src="../assets/js/admin.js"></script>
+</body>
+</html>

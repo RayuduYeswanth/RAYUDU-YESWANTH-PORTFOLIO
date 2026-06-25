@@ -1,0 +1,37 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null && request.auth.token.email == 'ryeswanthbraptcy@gmail.com';
+    }
+    match /profile/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /education/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /skills/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /projects/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /certifications/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /settings/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /messages/{doc} {
+      allow read: if isAdmin();
+      allow create: if true;
+      allow update, delete: if isAdmin();
+    }
+  }
+}
