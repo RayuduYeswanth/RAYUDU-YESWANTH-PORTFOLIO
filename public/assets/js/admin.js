@@ -174,7 +174,7 @@ document.getElementById('avatar-file')?.addEventListener('change', async e => {
   finally { btn.style.opacity = '1'; }
 });
 
-// ── CV Upload — Firebase Storage (free Spark plan) ───────────────────────────
+// ── CV Upload — Cloudinary (free 25 GB) ──────────────────────────────────────
 function loadCvUpload() { loadProfile(); }
 
 function setupCvUpload() {
@@ -190,30 +190,23 @@ function setupCvUpload() {
 async function uploadCV(file) {
   if (!file) return;
   if (file.type !== 'application/pdf') { toast('Please select a PDF file', 'error'); return; }
-  if (!storage) { toast('Storage not available', 'error'); return; }
   const wrap = document.getElementById('cv-progress-wrap');
   const bar  = document.getElementById('cv-progress');
   if (wrap) wrap.style.display = 'block';
   if (bar) bar.style.width = '0%';
-
-  const ref = storage.ref('cv/resume.pdf');
-  const task = ref.put(file, { contentType: 'application/pdf' });
-
-  task.on('state_changed',
-    snap => { if (bar) bar.style.width = Math.round((snap.bytesTransferred / snap.totalBytes) * 100) + '%'; },
-    err  => { toast(err.message, 'error'); if (wrap) wrap.style.display = 'none'; },
-    async () => {
-      const url = await task.snapshot.ref.getDownloadURL();
-      await db.collection('profile').doc('main').set({ cvURL: url }, { merge: true });
-      if (wrap) wrap.style.display = 'none';
-      const cvStatus = document.getElementById('cv-status');
-      if (cvStatus) cvStatus.innerHTML = `Current CV: <a href="${url}" target="_blank" style="color:var(--accent)">View / Download ↗</a>`;
-      // Copy URL button
-      const copyBtn = document.getElementById('cv-copy-btn');
-      if (copyBtn) { copyBtn.style.display = ''; copyBtn.onclick = () => { navigator.clipboard.writeText(url); toast('URL copied!'); }; }
-      toast(`CV uploaded: ${file.name}`);
-    }
-  );
+  try {
+    const url = await uploadToCloudinary(file, pct => { if (bar) bar.style.width = pct + '%'; });
+    await db.collection('profile').doc('main').set({ cvURL: url }, { merge: true });
+    if (wrap) wrap.style.display = 'none';
+    const cvStatus = document.getElementById('cv-status');
+    if (cvStatus) cvStatus.innerHTML = `Current CV: <a href="${url}" target="_blank" style="color:var(--accent)">View / Download ↗</a>`;
+    const copyBtn = document.getElementById('cv-copy-btn');
+    if (copyBtn) { copyBtn.style.display = ''; copyBtn.onclick = () => { navigator.clipboard.writeText(url); toast('URL copied!'); }; }
+    toast(`CV uploaded: ${file.name}`);
+  } catch (err) {
+    toast(err.message, 'error');
+    if (wrap) wrap.style.display = 'none';
+  }
 }
 
 // ── Education ─────────────────────────────────────────────────────────────────

@@ -18,11 +18,11 @@ Built with plain HTML + Tailwind CDN + Vanilla JS — no build step, no bundler.
 | Database | **Firebase Firestore** | Already set up, free Spark plan |
 | Auth | **Firebase Auth** email/password | Simple, already configured |
 | Images | **ImgBB API** (free, permanent) | No Firebase Storage cost for images |
-| CV/Resume PDF | **Firebase Storage** (Spark, 5 GB free) | Direct upload from admin, no Google Drive |
+| CV/Resume PDF | **Cloudinary** (free, 25 GB) | Firebase Storage requires Blaze upgrade — Cloudinary is free |
 | Videos | **YouTube embed URLs** | User pastes YouTube link in admin |
 | Firebase SDK | **Compat v10 via CDN** | No bundler needed; uses `firebase.firestore()` style |
 
-**Never add Firebase Storage for images** — user explicitly chose ImgBB.
+**Never add Firebase Storage** — requires Blaze (paid) upgrade. Images → ImgBB, CV PDF → Cloudinary.
 **Never add Firebase Hosting config** — user uses Vercel.
 
 ---
@@ -104,13 +104,12 @@ uploadToImgBB(file)  // defined in firebase-config.js, returns Promise<url>
 ```
 Used for: profile photo, project images, cert images.
 
-### Firebase Storage upload (CV PDF only)
+### Cloudinary upload (CV PDF only)
 ```js
-const ref = storage.ref('cv/resume.pdf');
-const task = ref.put(file, { contentType: 'application/pdf' });
-// on complete → task.snapshot.ref.getDownloadURL()
+uploadToCloudinary(file, onProgress)  // defined in firebase-config.js, returns Promise<url>
 ```
-Handled in `admin.js → uploadCV()`.
+Uses unsigned upload preset. `onProgress(pct)` is optional — called with 0–100.
+Handled in `admin.js → uploadCV()`. Credentials in `firebase-config.js`: `CLOUDINARY_CLOUD_NAME` + `CLOUDINARY_UPLOAD_PRESET`.
 
 ### Admin email lock (admin.js)
 ```js
@@ -175,9 +174,9 @@ Only needs to be run once on a fresh Firestore database.
 
 ## Known issues / pending
 
-- [ ] Firebase rules not yet live — user must paste manually into Firebase Console (or run `firebase login` with `ryeswanthbraptcy@gmail.com` then `firebase deploy --only firestore:rules,storage:rules`)
-- [ ] Firebase Auth user must be created manually: Firebase Console → Authentication → Add user → `ryeswanthbraptcy@gmail.com`
-- [ ] Firebase Storage must be enabled: Firebase Console → Storage → Get started → Production mode
+- [x] Firestore rules live — pasted into Firebase Console
+- [x] Firebase Auth user created — `ryeswanthbraptcy@gmail.com`
+- [ ] Cloudinary credentials needed — set `CLOUDINARY_CLOUD_NAME` and `CLOUDINARY_UPLOAD_PRESET` in `public/assets/js/firebase-config.js`
 
 ---
 
